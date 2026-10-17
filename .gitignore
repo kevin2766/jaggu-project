@@ -1,0 +1,18 @@
+# Byte-compiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Temporary user uploads (keep directory with .gitkeep)
+uploads/*
+!uploads/.gitkeep
+
+# Environments
+.env
+venv/
+env/
+ENV/
+
+# Temporary test media
+scratch/
+*.log

@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SatyaDrishti AI — Indian Deepfake Detection Platform | Cyber Samvad 2026</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header -->
+    <header class="header">
+      <div class="brand-wrapper">
+        <div class="logo-shield">👁️</div>
+        <div class="brand-titles">
+          <h1>SatyaDrishti AI <span style="font-weight: 400; font-size: 19px; color: var(--primary);">| सत्य दृष्टि</span></h1>
+          <p class="tagline">Indian Deepfake Detection & Media Forensic Platform</p>
+        </div>
+      </div>
+      <div class="header-badges">
+        <div class="badge-hackathon">
+          <span>🏆</span> Cyber Samvad Hackathon 2026
+        </div>
+        <button id="btnPitch" class="btn-pitch">
+          <span>📊</span> Pitch Deck / Presentation
+        </button>
+      </div>
+    </header>
+
+    <!-- Ethical Disclaimer & Indian Helpline Banner -->
+    <div class="ethical-banner">
+      <div class="disclaimer-text">
+        <strong>⚖️ Ethical Safeguard:</strong> Automated results can be wrong and should not be treated as final proof. Do not label a real person as a liar or claim a video is definitely fake based only on an AI score.
+      </div>
+      <div class="helpline-pill">
+        📞 Cyber Fraud Helpline: 1930 | cybercrime.gov.in
+      </div>
+    </div>
+
+    <!-- Main Grid -->
+    <div class="grid-main">
+      <!-- Left Column: Input, Demos, Controls -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">📁</span> Select or Upload Video
+          </div>
+          <span style="font-size: 12px; color: var(--text-muted);">MP4, WebM, MOV</span>
+        </div>
+
+        <!-- Drag & Drop Upload Zone -->
+        <div id="dropzone" class="dropzone">
+          <div class="dropzone-icon">📤</div>
+          <div id="dropzoneTitle" class="dropzone-text">Drop video here or click to browse</div>
+          <div id="dropzoneSub" class="dropzone-sub">Supports media files up to 100MB</div>
+          <input type="file" id="fileInput" accept="video/mp4,video/webm,video/quicktime,video/x-msvideo" style="display: none;">
+        </div>
+
+        <!-- Preloaded Demo Selector -->
+        <div class="section-subtitle">Or Select a Hackathon Demo Scenario:</div>
+        <div class="demo-selector-grid">
+          <button class="btn-demo" data-demo="real">
+            <div class="demo-title">🛡️ Demo 1: Authentic Address</div>
+            <div class="demo-desc">Normal speech video, natural micro-blinking</div>
+          </button>
+          <button class="btn-demo" data-demo="deepfake">
+            <div class="demo-title">⚠️ Demo 2: AI Face-Swap</div>
+            <div class="demo-desc">Boundary seam, high jitter & fixed gaze</div>
+          </button>
+          <button class="btn-demo" data-demo="lipsync">
+            <div class="demo-title">🎭 Demo 3: Lip-Sync Desync</div>
+            <div class="demo-desc">Erratic mouth flutter, dubbing desync</div>
+          </button>
+          <button class="btn-demo" data-demo="low_quality">
+            <div class="demo-title">❓ Demo 4: WhatsApp Forward</div>
+            <div class="demo-desc">Heavy blur & compression (Unable to assess)</div>
+          </button>
+        </div>
+
+        <!-- Action Button -->
+        <button id="btnAnalyze" class="btn-analyze" disabled>
+          <span>🔍</span> Run Forensic Deepfake Analysis
+        </button>
+
+        <!-- Scanning Animation Indicator -->
+        <div id="scannerIndicator" class="scanning-indicator">
+          <div class="scanner-bar-container">
+            <div id="scannerFill" class="scanner-bar-fill"></div>
+          </div>
+          <div id="scannerStatus" class="scanner-status-text">
+            Initializing neural & spatial forensic pipelines...
+          </div>
+        </div>
+
+        <!-- Indian WhatsApp Forward Awareness Tip -->
+        <div style="margin-top: 22px; padding: 12px 14px; background: rgba(15, 23, 42, 0.4); border-radius: 8px; border: 1px solid rgba(255, 255, 255, 0.05); font-size: 12px; color: var(--text-muted);">
+          <strong style="color: #38bdf8;">🇮🇳 WhatsApp Verification Protocol:</strong>
+          <ul style="padding-left: 18px; margin-top: 6px; line-height: 1.6;">
+            <li>Check if the video has the "Forwarded many times" tag.</li>
+            <li>Look for blurry mouth contours or unnatural robotic audio cadences.</li>
+            <li>Never forward inflammatory media before running verification.</li>
+          </ul>
+        </div>
+      </div>
+
+      <!-- Right Column: Video Playback & Live Visualizer -->
+      <div class="card">
+        <div class="card-header">
+          <div class="card-title">
+            <span class="icon">🎥</span> Video Stream & Forensic ROI
+          </div>
+          <span style="font-size: 12px; color: #38bdf8;">Direct Frame Inspection</span>
+        </div>
+
+        <div class="video-preview-wrapper">
+          <div id="videoPlaceholder" class="video-overlay-placeholder">
+            <span style="font-size: 36px;">🎞️</span>
+            <span>Select a demo video or upload a file to preview</span>
+          </div>
+          <video id="videoPlayer" controls playsinline style="display: none;"></video>
+        </div>
+
+        <div style="font-size: 12px; color: var(--text-muted); display: flex; justify-content: space-between;">
+          <span>Timeline synchronized with keyframe evidence</span>
+          <span>Click any keyframe below to seek player</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Results & Forensic Dossier Section -->
+    <div id="resultsCard" class="card" style="display: none; margin-top: 28px;">
+      <div class="card-header">
+        <div class="card-title">
+          <span class="icon">📊</span> Multi-Modal Forensic Dossier
+        </div>
+        <div style="font-size: 12px; color: var(--text-muted);">
+          ISO/IEC 27037 Media Forensics Standard Compliant
+        </div>
+      </div>
+
+      <!-- Verdict Banner -->
+      <div id="verdictBanner" class="verdict-banner">
+        <div class="verdict-info">
+          <h2 id="verdictTitle">Analyzing...</h2>
+          <p id="verdictDesc">Processing spatial and temporal metrics...</p>
+        </div>
+        <div class="verdict-score-pill">
+          <div id="riskScoreVal" class="score-num">--%</div>
+          <div class="score-label">Manipulation Risk</div>
+          <div style="font-size: 10px; color: var(--text-muted); margin-top: 4px;">Confidence: <span id="confScoreVal">--%</span></div>
+        </div>
+      </div>
+
+      <!-- Multi-lingual Plain Explanation Section -->
+      <div class="section-subtitle">Plain-Language Summary (Citizen & Journalist View):</div>
+      <div class="lang-selector-tabs">
+        <button class="lang-tab active" data-lang="en">English</button>
+        <button class="lang-tab" data-lang="hi">हिंदी (Hindi)</button>
+        <button class="lang-tab" data-lang="mr">मराठी (Marathi)</button>
+        <button class="lang-tab" data-lang="gu">ગુજરાતી (Gujarati)</button>
+        <button class="lang-tab" data-lang="bn">বাংলা (Bengali)</button>
+        <button class="lang-tab" data-lang="ta">தமிழ் (Tamil)</button>
+        <button class="lang-tab" data-lang="te">తెలుగు (Telugu)</button>
+      </div>
+
+      <div class="plain-explanation-card">
+        <span id="plainBadge" class="plain-badge" style="background: rgba(56, 189, 248, 0.2); color: #38bdf8;">ASSESSMENT</span>
+        <h3 id="plainHeadline" style="font-size: 15px; font-weight: 700; margin-bottom: 6px; color: #fff;"></h3>
+        <p id="plainText" class="plain-explanation-text"></p>
+        <div id="plainAction" class="plain-action-tip"></div>
+      </div>
+
+      <!-- Forensic Telemetry Metrics Grid -->
+      <div class="section-subtitle">Core Forensic Telemetry & Biomarkers:</div>
+      <div class="telemetry-grid">
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>📐</span> Boundary Seam Variance</div>
+          <div id="metricSeam" class="telemetry-value">--</div>
+          <div id="metricSeamStatus" class="telemetry-status">--</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>📶</span> 2D FFT Spectral Ratio</div>
+          <div id="metricFFT" class="telemetry-value">--</div>
+          <div id="metricFFTStatus" class="telemetry-status">--</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>👁️</span> Eye Blink Frequency</div>
+          <div id="metricBlink" class="telemetry-value">--</div>
+          <div id="metricBlinkStatus" class="telemetry-status">--</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>🎨</span> Chrominance Tone Delta</div>
+          <div id="metricChroma" class="telemetry-value">--</div>
+          <div class="telemetry-status">Face vs Neckline</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>⚡</span> Motion Warp Jitter</div>
+          <div id="metricJitter" class="telemetry-value">--</div>
+          <div class="telemetry-status">Inter-frame Velocity</div>
+        </div>
+        <div class="telemetry-card">
+          <div class="telemetry-label"><span>🔍</span> Laplacian Sharpness</div>
+          <div id="metricSharpness" class="telemetry-value">--</div>
+          <div class="telemetry-status">Baseline threshold: 25.0</div>
+        </div>
+      </div>
+
+      <!-- Specific Forensic Clues -->
+      <div class="section-subtitle">Identified Forensic Clues & Behavioral Anomalies:</div>
+      <div id="cluesList" class="clues-list"></div>
+
+      <!-- Keyframe Visual Evidence -->
+      <div class="section-subtitle">Keyframe Evidence Gallery (Click frame to jump video):</div>
+      <div id="keyframesGallery" class="keyframes-gallery"></div>
+
+      <!-- Export / Print Actions -->
+      <div class="report-actions">
+        <button id="btnPrintDossier" class="btn-secondary">
+          <span>🖨️</span> Export Forensic Audit Dossier (PDF/Print)
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pitch Deck Modal -->
+  <div id="modalPitch" class="modal">
+    <div class="modal-content">
+      <div class="modal-header">
+        <div class="modal-title">
+          <span>🏆</span> Cyber Samvad Hackathon 2026 Pitch Deck
+        </div>
+        <button id="btnCloseModal" class="btn-close">&times;</button>
+      </div>
+
+      <div class="modal-body">
+        <!-- Slide 1: The Problem -->
+        <div class="pitch-slide active">
+          <div class="slide-tag">Problem Statement #1</div>
+          <h2 class="slide-heading">The Deepfake Threat in India</h2>
+          <div class="slide-content">
+            <p>India is the world's largest consumer of mobile data and the biggest user base for WhatsApp and YouTube. However, this vast connectivity brings severe threats:</p>
+            <ul>
+              <li><strong>Viral Misinformation:</strong> Unchecked deepfake videos inflame communal tensions, spread fabricated political statements during elections, and impersonate public figures.</li>
+              <li><strong>Financial & Impersonation Scams:</strong> AI voice cloning and face swapping power "digital arrest" scams and fake video calls that dupe elderly citizens out of their life savings.</li>
+              <li><strong>Lack of Citizen Tools:</strong> Ordinary citizens and local journalists have zero accessible, trustworthy tools to check videos in their regional languages before forwarding them.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slide 2: The Solution -->
+        <div class="pitch-slide">
+          <div class="slide-tag">Our Solution</div>
+          <h2 class="slide-heading">SatyaDrishti (सत्य दृष्टि) AI Platform</h2>
+          <div class="slide-content">
+            <p><strong>SatyaDrishti</strong> is a lightweight, multi-signal deepfake detection platform tailored specifically for Indian media ecosystems:</p>
+            <ul>
+              <li><strong>Zero-Barrier Access:</strong> Web-based, responsive, works directly on smartphones and desktops without requiring specialized GPU hardware.</li>
+              <li><strong>3 Clear Decision States:</strong> <em>"Possible manipulation detected"</em>, <em>"No strong signs detected"</em>, and critically, <em>"Unable to assess"</em> for degraded footage.</li>
+              <li><strong>Plain-Language Multi-Lingual Support:</strong> Instant explanations in 7 Indian languages (Hindi, Marathi, Gujarati, Bengali, Tamil, Telugu, English).</li>
+              <li><strong>Citizen Action Guidance:</strong> Direct integration with the National Cybercrime Portal (`cybercrime.gov.in`) and the 1930 Helpline.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slide 3: Multi-Signal Engine Architecture -->
+        <div class="pitch-slide">
+          <div class="slide-tag">Technical Architecture</div>
+          <h2 class="slide-heading">Multi-Modal Forensic Pipeline</h2>
+          <div class="slide-content">
+            <p>Rather than relying on a single black-box model that fails when video is compressed, SatyaDrishti uses a four-pillar forensic pipeline:</p>
+            <ul>
+              <li><strong>1. Spatial Boundary Forensics:</strong> Detects Laplacian edge gradient disparities and blending seams where a swapped face is composited onto a host body.</li>
+              <li><strong>2. 2D FFT Spectral Analysis:</strong> Exposes the periodic high-frequency grid artifacts left behind by GAN decoders and diffusion upsamplers.</li>
+              <li><strong>3. Biological Dynamics:</strong> Tracks natural human eye-blink rates (12-20/min) and flags staring avatars or synthetic eyelid flutter.</li>
+              <li><strong>4. Chrominance & Motion Stability:</strong> Evaluates YCrCb skin-tone shifts between face mask and neck contours, alongside inter-frame warp jitter.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slide 4: Ethical Safeguards & Inconclusive Handling -->
+        <div class="pitch-slide">
+          <div class="slide-tag">Ethical Compliance</div>
+          <h2 class="slide-heading">Responsible AI & The "Unable to Assess" State</h2>
+          <div class="slide-content">
+            <p>A key hackathon guideline is: <em>"Do not label a real person as a liar or claim a video is definitely fake based only on an AI score."</em></p>
+            <ul>
+              <li><strong>Avoiding False Accusations:</strong> Low-resolution (under 360p) or blurry WhatsApp forwards are explicitly categorized as <em>"Unable to assess"</em> rather than generating a reckless false positive.</li>
+              <li><strong>Human-in-the-Loop Clarity:</strong> We provide forensic clues (e.g. "Abnormal Eyelid Flutter at 2.4s") rather than an opaque pass/fail, enabling fact-checkers to inspect the exact keyframes.</li>
+              <li><strong>Clear Warning Banners:</strong> Prominent reminders that automated AI results are advisory warning signs, not legal verdicts.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slide 5: Societal Impact in India -->
+        <div class="pitch-slide">
+          <div class="slide-tag">Impact & Reach</div>
+          <h2 class="slide-heading">Empowering 900+ Million Connected Citizens</h2>
+          <div class="slide-content">
+            <p>How SatyaDrishti protects Indian society and democracy:</p>
+            <ul>
+              <li><strong>Electoral Integrity:</strong> Election Commission observers and journalists can verify controversial political speeches within seconds.</li>
+              <li><strong>Stopping WhatsApp Forward Cascades:</strong> Equips WhatsApp group administrators and community leaders with an easy verification link before a clip goes viral.</li>
+              <li><strong>Law Enforcement Integration:</strong> Provides police cyber cells with printable ISO/IEC 27037 forensic dossiers featuring cryptographic SHA-256 hashes.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slide 6: Limitations & Future Roadmap -->
+        <div class="pitch-slide">
+          <div class="slide-tag">Limitations & Roadmap</div>
+          <h2 class="slide-heading">Honest Limitations & Next Steps</h2>
+          <div class="slide-content">
+            <p><strong>Current Limitations (Hackathon Honest Disclosure):</strong></p>
+            <ul>
+              <li>Heavily compressed 144p videos (5th generation WhatsApp forwards) often lack sufficient facial pixels for micro-expression analysis.</li>
+              <li>State-of-the-art Sora-grade whole-frame diffusion generators do not leave boundary seams, requiring audio phoneme alignment and deep temporal transformers.</li>
+            </ul>
+            <p style="margin-top: 10px;"><strong>Future Roadmap:</strong></p>
+            <ul>
+              <li>WhatsApp Bot integration: Send a video to an official WhatsApp number to receive an instant SatyaDrishti verdict card.</li>
+              <li>C2PA Cryptographic Content Credentials verification for camera-native provenance.</li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Slide Navigation Controls -->
+        <div class="slide-footer">
+          <div id="slideCounter" class="slide-counter">Slide 1 of 6</div>
+          <div class="slide-nav">
+            <button id="btnPrevSlide" class="btn-secondary" style="padding: 6px 14px; font-size: 12px;" disabled>Previous</button>
+            <button id="btnNextSlide" class="btn-secondary" style="padding: 6px 14px; font-size: 12px;">Next &rarr;</button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
